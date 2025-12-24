@@ -1,5 +1,5 @@
 server:
-  port: 8676   # or 8761, your choice
+  port: 8676   # or 8761 if you prefer
 
 spring:
   application:
@@ -9,4 +9,3 @@ eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
-    enabled: false
