@@ -1,5 +1,7 @@
 package com.cro.auth_service.controller;
 
+import com.cro.auth_service.dto.LoginRequest;
+import com.cro.auth_service.dto.LoginResponse;
 import com.cro.auth_service.dto.RegisterRequest;
 import com.cro.auth_service.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +22,13 @@ public class AuthController {
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
         authService.registerUser(request);
         return ResponseEntity.ok("User registered successfully");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        String token = authService.login(
+                request.getUsername(), request.getPassword()
+        );
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 }
