@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ServerWebExchange;
@@ -12,9 +13,10 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class JwtAuthenticationFilter {
 
-    @Value("${jwt.secret")
+    @Value("${jwt.secret}")
     private String secret;
 
+    @Bean
     public GlobalFilter validateAuthentication() {
         return (exchange, chain) -> {
             String path = exchange.getRequest().getURI().getPath();
@@ -41,7 +43,7 @@ public class JwtAuthenticationFilter {
                 ServerWebExchange modifiedExchange = exchange.mutate()
                         .request(r -> r
                                 .header("X-CRO-Username", username)
-                                .header("X-CRO=ROLE", roles)
+                                .header("X-CRO-ROLE", roles)
                         )
                         .build();
                 return chain.filter(modifiedExchange);
