@@ -6,10 +6,9 @@ import com.cro.auth_service.dto.RegisterRequest;
 import com.cro.auth_service.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -31,4 +30,24 @@ public class AuthController {
         );
         return ResponseEntity.ok(new LoginResponse(issuedToken));
     }
+
+    @GetMapping("/getUser")
+    public ResponseEntity<?> getCurrentUser(@RequestHeader("X-CRO-Username") String username,
+                                            @RequestHeader("X-CRO-Roles") String roles ) {
+        return ResponseEntity.ok(
+                Map.of("username", username,
+        "roles", roles)
+        );
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<?> validateToken(@RequestHeader ("X-CRO-Username") String username) {
+        return ResponseEntity.ok(
+                Map.of("valid", true,
+                        "username", username)
+        );
+    }
+
+
+
 }

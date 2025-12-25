@@ -19,6 +19,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/h2-console/**",
+                                "/auth/validate",
+                                "/auth/getUser",
                                 "/auth/register",
                                 "/auth/login"
                         ).permitAll()

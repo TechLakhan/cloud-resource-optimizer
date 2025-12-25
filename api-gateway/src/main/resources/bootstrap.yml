@@ -6,7 +6,17 @@ spring:
     config:
       uri: http://localhost:8888
 
+    gateway:
+      routes:
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth/**
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8676/eureka/
+
+jwt:
+  secret: CLOUD-NATIVE-MICROSERVICE-APP-KEY
