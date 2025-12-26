@@ -28,19 +28,20 @@ public class AuthService {
         User newUser = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
+                .role(request.getRole())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 
         userRepository.save(newUser);
     }
 
-    public String login(String username, String rawPassword) {
+    public String login(String username, String rawPassword, String role) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
             throw new RuntimeException("Invalid credentials.");
         }
-        return jwtUtil.generateToken(username);
+        return jwtUtil.generateToken(username, role);
     }
 }
