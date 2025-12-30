@@ -5,6 +5,7 @@ import com.cro.auth_service.dto.LoginResponse;
 import com.cro.auth_service.dto.RegisterRequest;
 import com.cro.auth_service.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,10 +34,10 @@ public class AuthController {
 
     @GetMapping("/getUser")
     public ResponseEntity<?> getCurrentUser(@RequestHeader("X-CRO-Username") String username,
-                                            @RequestHeader("X-CRO-Roles") String roles ) {
+                                            @RequestHeader("X-CRO-Role") String role ) {
         return ResponseEntity.ok(
                 Map.of("username", username,
-        "roles", roles)
+        "role", role)
         );
     }
 
@@ -47,6 +48,22 @@ public class AuthController {
                         "username", username)
         );
     }
+
+    @GetMapping("/admin/alerts")
+    public ResponseEntity<?> configureAlert(@RequestHeader ("X-CRO-Role") String role) {
+        if (!"ROLE-ADMIN".equals(role)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Admin access required");
+        }
+        return ResponseEntity.ok("Alert configured.");
+    }
+
+    @GetMapping("/user/resource")
+    public ResponseEntity<?> getUserResources(@RequestHeader("X-CRO-Username")
+                                              String username) {
+        return ResponseEntity.ok("Resources for " + username);
+    }
+
 
 
 

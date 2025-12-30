@@ -22,7 +22,9 @@ public class SecurityConfig {
                                 "/auth/validate",
                                 "/auth/getUser",
                                 "/auth/register",
-                                "/auth/login"
+                                "/auth/login",
+                                "/auth/admin/alerts",
+                                "/auth/user/resource"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
