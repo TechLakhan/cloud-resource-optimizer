@@ -13,6 +13,11 @@ spring:
           predicates:
             - Path=/auth/**
 
+        - id: resource-monitoring-service
+          uri: lb://RESOURCE-MONITORING-SERVICE
+          predicates:
+            - Path=/user/**,/admin/**
+
 eureka:
   client:
     service-url:

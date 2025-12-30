@@ -13,6 +13,11 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class JwtAuthenticationFilter {
 
+    private final String ROLE_ADMIN = "ROLE-ADMIN";
+    private final String ROLE_USER = "ROLE-USER";
+    private final String ROLE_SYSTEM = "ROLE-SYSTEM";
+
+
     @Value("${jwt.secret}")
     private String secret;
 
@@ -38,12 +43,21 @@ public class JwtAuthenticationFilter {
                 Claims claims = jwtUtil.validateToken(token);
 
                 String username = claims.getSubject();
-                String roles = claims.get("roles", String.class);
+                String role = claims.get("role", String.class);
 
+                if (path.startsWith("/admin") && !ROLE_ADMIN.equals(role)) {
+                    return forbidden(exchange);
+                }
+                if (path.startsWith("/user") && !(ROLE_USER.equals(role) || ROLE_ADMIN.equals(role))) {
+                    return forbidden(exchange);
+                }
+                if (path.startsWith("/system") && !ROLE_SYSTEM.equals(role)) {
+                    return forbidden(exchange);
+                }
                 ServerWebExchange modifiedExchange = exchange.mutate()
                         .request(r -> r
                                 .header("X-CRO-Username", username)
-                                .header("X-CRO-ROLE", roles)
+                                .header("X-CRO-Role", role)
                         )
                         .build();
                 return chain.filter(modifiedExchange);
@@ -55,6 +69,11 @@ public class JwtAuthenticationFilter {
 
     private Mono<Void> unauthorized(ServerWebExchange exchange) {
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+        return exchange.getResponse().setComplete();
+    }
+
+    private Mono<Void> forbidden(ServerWebExchange exchange) {
+        exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
         return exchange.getResponse().setComplete();
     }
 }

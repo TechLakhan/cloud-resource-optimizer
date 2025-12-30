@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: resource-monitoring-service
+
+  config:
+    import: configserver:http://localhost:8888
+
+server:
+  port: 8082
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8676/eureka/
+      register-with-eureka: true
+      fetch-registry: true
+
+
