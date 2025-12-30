@@ -26,7 +26,7 @@ public class JwtAuthenticationFilter {
         return (exchange, chain) -> {
             String path = exchange.getRequest().getURI().getPath();
 
-            if (path.startsWith("/auth/register") || path.startsWith("/auth/login")) {
+            if (path.startsWith("/auth/register") || path.startsWith("/auth/login") || path.startsWith("/resource/health") || path.startsWith("/auth/health")) {
                 return chain.filter(exchange);
             }
 

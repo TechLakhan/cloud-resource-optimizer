@@ -16,7 +16,7 @@ spring:
         - id: resource-monitoring-service
           uri: lb://RESOURCE-MONITORING-SERVICE
           predicates:
-            - Path=/user/**,/admin/**
+            - Path=/user/**,/admin/**,/resource/**
 
 eureka:
   client:
