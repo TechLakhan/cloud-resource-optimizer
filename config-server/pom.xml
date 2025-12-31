@@ -9,10 +9,10 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.cro</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>configserver</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>config-server</name>
-	<description>Demo project for Spring Boot</description>
+	<description>config-server service for Spring Boot application</description>
 	<url/>
 	<licenses>
 		<license/>

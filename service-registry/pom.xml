@@ -9,7 +9,7 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.cor</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>service-registry</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>service-registry</name>
 	<description>service-registry service for application</description>
