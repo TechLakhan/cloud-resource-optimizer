@@ -32,4 +32,11 @@ public class PodMetricsService {
                 )
         );
     }
+
+    public List<PodMetricsResponse> getPodsByNamespace(String namespace) {
+        return fetchPodsMetrics().stream().
+                        filter(pod -> pod.getNamespace().equalsIgnoreCase(namespace)
+                        )
+                        .toList();
+    }
 }
