@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PodMetricsResponse {
-
     private String podName;
     private String namespace;
     private String nodeName;
@@ -22,4 +21,12 @@ public class PodMetricsResponse {
     private boolean anomaly;
 
 
+    public PodMetricsResponse(String podName, String namespace, String nodeName, int cpuUsageMilli, int memoryUsageMi, String status) {
+        this.podName = podName;
+        this.namespace = namespace;
+        this.nodeName = nodeName;
+        this.cpuUsageMilli = cpuUsageMilli;
+        this.memoryUsageMi = memoryUsageMi;
+        this.status = status;
+    }
 }
