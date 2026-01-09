@@ -1,6 +1,7 @@
 package com.cro.resource_monitoring_service.interceptor;
 
 import com.cro.resource_monitoring_service.constant.ApplicationConstants;
+import com.cro.resource_monitoring_service.exception.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
@@ -19,11 +20,7 @@ public class RequestHeaderInterceptor implements HandlerInterceptor {
         String username = request.getHeader(ApplicationConstants.X_CRO_USERNAME);
         String role = request.getHeader(ApplicationConstants.X_CRO_ROLE);
         if (username == null || StringUtils.isBlank(username) || role == null || StringUtils.isBlank(role)) {
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.getWriter().write(
-                    "Missing or invalid authentication headers"
-            );
-            return false;
+            throw new UnauthorizedException("Missing or invalid authorization headers");
         }
         return true;
     }
