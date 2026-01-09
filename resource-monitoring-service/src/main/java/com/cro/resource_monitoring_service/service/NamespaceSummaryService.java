@@ -2,6 +2,9 @@ package com.cro.resource_monitoring_service.service;
 
 import com.cro.resource_monitoring_service.dto.NamespaceSummaryResponse;
 import com.cro.resource_monitoring_service.dto.PodMetricsResponse;
+import com.cro.resource_monitoring_service.exception.InvalidRequestException;
+import com.cro.resource_monitoring_service.exception.UnauthorizedOperationException;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,9 +53,16 @@ public class NamespaceSummaryService {
 
     }
 
-    public void validateHeaders(String namespace, String username) {
-        if (namespace == null || username == null) {
-            throw new RuntimeException("Namespace & username must be passed in headers");
+    public void validateRequest(String namespace, String username) throws UnauthorizedOperationException, InvalidRequestException {
+        validateNamespace(namespace);
+        if (username == null || StringUtils.isBlank(username)) {
+            throw new UnauthorizedOperationException("Invalid or incorrect username");
+        }
+    }
+
+    private void validateNamespace(String namespace) throws InvalidRequestException {
+        if (namespace == null || StringUtils.isBlank(namespace)) {
+            throw new InvalidRequestException("Namespace not found");
         }
     }
 }

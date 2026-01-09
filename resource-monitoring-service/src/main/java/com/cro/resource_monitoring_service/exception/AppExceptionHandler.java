@@ -12,51 +12,51 @@ import java.time.Instant;
 @RestControllerAdvice
 public class AppExceptionHandler {
 
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<ErrorResponse> handleUnauthorized(UnauthorizedException ex,
-                                                            HttpServletRequest request) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                new ErrorResponse(401,
-                        "UNAUTHORIZED",
-                        ex.getMessage(),
-                        request.getRequestURI(),
-                        Instant.now()
-                        ));
-    }
-
-    @ExceptionHandler(ForbiddenException.class)
-    public ResponseEntity<ErrorResponse> handleForbidden(ForbiddenException ex,
-                                                            HttpServletRequest request) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
-                new ErrorResponse(403,
-                        "FORBIDDEN",
-                        ex.getMessage(),
-                        request.getRequestURI(),
-                        Instant.now()
-                ));
-    }
-
-    @ExceptionHandler
+    @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex,
-                                                         HttpServletRequest request) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new ErrorResponse(404,
-                        "NOT_FOUND",
-                        ex.getMessage(),
-                        request.getRequestURI(),
-                        Instant.now()
-                ));
+                                                        HttpServletRequest request) {
+        return buildErrorResponse(
+                HttpStatus.NOT_FOUND,
+                ex.getMessage(),
+                request.getRequestURI());
+    }
+
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidRequest(InvalidRequestException ex,
+                                                        HttpServletRequest request) {
+        return buildErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage(),
+                request.getRequestURI());
+    }
+
+    @ExceptionHandler(UnauthorizedOperationException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedOperation(UnauthorizedOperationException ex,
+                                                            HttpServletRequest request) {
+        return buildErrorResponse(
+                HttpStatus.UNAUTHORIZED,
+                ex.getMessage(),
+                request.getRequestURI());
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex,
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex,
                                                          HttpServletRequest request) {
-        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(
-                new ErrorResponse(500,
-                        "SERVICE_UNAVAILABLE",
-                        ex.getMessage(),
-                        request.getRequestURI(),
-                        Instant.now()
-                ));
+        return buildErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ex.getMessage(),
+                request.getRequestURI());
+    }
+
+    private ResponseEntity<ErrorResponse> buildErrorResponse(HttpStatus status,
+                                                             String message, String path) {
+        ErrorResponse response = new ErrorResponse(
+                status.value(),
+                status.getReasonPhrase(),
+                message,
+                path,
+                Instant.now()
+        );
+        return ResponseEntity.status(status).body(response);
     }
 }

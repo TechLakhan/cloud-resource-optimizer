@@ -2,6 +2,8 @@ package com.cro.resource_monitoring_service.controller;
 
 import com.cro.resource_monitoring_service.dto.NamespaceSummaryResponse;
 import com.cro.resource_monitoring_service.dto.PodMetricsResponse;
+import com.cro.resource_monitoring_service.exception.InvalidRequestException;
+import com.cro.resource_monitoring_service.exception.UnauthorizedOperationException;
 import com.cro.resource_monitoring_service.service.NamespaceSummaryService;
 import com.cro.resource_monitoring_service.service.PodMetricsService;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +26,9 @@ public class NamespaceSummaryController {
     @GetMapping("/{namespace}/summary")
     public ResponseEntity<NamespaceSummaryResponse> getNamespaceSummaryResponse(
             @PathVariable String namespace,
-            @RequestHeader ("X-CRO-Username") String username) {
+            @RequestHeader ("X-CRO-Username") String username) throws InvalidRequestException, UnauthorizedOperationException {
 
-        namespaceSummaryService.validateHeaders(namespace, username);
+        namespaceSummaryService.validateRequest(namespace, username);
         List<PodMetricsResponse> pods = podMetricsService.getPodsByNamespace(namespace);
         NamespaceSummaryResponse Response = namespaceSummaryService.buildSummary(namespace, pods);
 
