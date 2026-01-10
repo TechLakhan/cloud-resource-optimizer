@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/resource/user/cluster")
+@RequestMapping(value = "/user/cluster")
 public class ClusterSummaryController {
 
     private final ClusterSummaryService clusterSummaryService;
@@ -18,7 +18,7 @@ public class ClusterSummaryController {
         this.clusterSummaryService = clusterSummaryService;
     }
 
-    @GetMapping("/summary")
+    @GetMapping(value = "/summary")
     public ResponseEntity<ClusterSummaryResponse> getAllClusterSummary(
             @RequestHeader ("X-CRO-Username") String username,
             @RequestHeader ("X-CRO-Role") String role

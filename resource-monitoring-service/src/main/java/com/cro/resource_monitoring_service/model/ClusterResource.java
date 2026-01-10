@@ -1,14 +1,12 @@
 package com.cro.resource_monitoring_service.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Data
 public class ClusterResource {
 
     private String clusterName;

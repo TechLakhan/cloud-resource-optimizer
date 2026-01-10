@@ -1,5 +1,7 @@
 package com.cro.auth_service.service;
 
+import com.cro.auth_service.dto.LoginRequest;
+import com.cro.auth_service.dto.LoginResponse;
 import com.cro.auth_service.dto.RegisterRequest;
 import com.cro.auth_service.entity.User;
 import com.cro.auth_service.entity.UserRepository;
@@ -35,13 +37,15 @@ public class AuthService {
         userRepository.save(newUser);
     }
 
-    public String login(String username, String rawPassword, String role) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public LoginResponse login(LoginRequest request) {
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
 
-        if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid credentials.");
         }
-        return jwtUtil.generateToken(username, role);
+        String trustToken = jwtUtil.generateToken(user.getUsername(), user.getRole());
+
+        return new LoginResponse(trustToken, user.getUsername(), user.getRole());
     }
 }
