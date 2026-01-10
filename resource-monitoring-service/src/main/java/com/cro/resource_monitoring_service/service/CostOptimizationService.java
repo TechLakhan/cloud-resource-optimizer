@@ -2,6 +2,8 @@ package com.cro.resource_monitoring_service.service;
 
 import com.cro.resource_monitoring_service.dto.CostOptimizationResponse;
 import com.cro.resource_monitoring_service.dto.PodMetricsResponse;
+import com.cro.resource_monitoring_service.exception.InvalidRequestException;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +22,11 @@ public class CostOptimizationService {
         this.podMetricsService = podMetricsService;
     }
 
-    public List<CostOptimizationResponse> estimateCost(String username) {
+    public List<CostOptimizationResponse> estimateCost(String username) throws InvalidRequestException {
+
+        if (username == null || StringUtils.isBlank(username)) {
+            throw new InvalidRequestException(username);
+        }
 
         List<PodMetricsResponse> pods = podMetricsService.fetchPodsMetrics();
 
