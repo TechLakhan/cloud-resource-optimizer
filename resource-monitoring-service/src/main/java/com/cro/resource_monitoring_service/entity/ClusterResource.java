@@ -1,4 +1,4 @@
-package com.cro.resource_monitoring_service.model;
+package com.cro.resource_monitoring_service.entity;
 
 import lombok.*;
 

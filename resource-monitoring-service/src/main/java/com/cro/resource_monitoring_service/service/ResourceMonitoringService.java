@@ -1,6 +1,6 @@
 package com.cro.resource_monitoring_service.service;
 
-import com.cro.resource_monitoring_service.model.ClusterResource;
+import com.cro.resource_monitoring_service.entity.ClusterResource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

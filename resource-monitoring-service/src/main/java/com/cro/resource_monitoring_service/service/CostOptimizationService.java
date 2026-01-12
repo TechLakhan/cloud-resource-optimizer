@@ -28,7 +28,7 @@ public class CostOptimizationService {
             throw new InvalidRequestException(username);
         }
 
-        List<PodMetricsResponse> pods = podMetricsService.fetchPodsMetrics();
+        List<PodMetricsResponse> pods = podMetricsService.fetchPodsMetrics(username);
 
         return pods.stream()
                 .map(pod -> {

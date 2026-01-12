@@ -29,7 +29,7 @@ public class NamespaceSummaryController {
             @RequestHeader ("X-CRO-Username") String username) throws InvalidRequestException, UnauthorizedOperationException {
 
         namespaceSummaryService.validateRequest(namespace, username);
-        List<PodMetricsResponse> pods = podMetricsService.getPodsByNamespace(namespace);
+        List<PodMetricsResponse> pods = podMetricsService.getPodsByNamespaceAndUsername(namespace, username);
         NamespaceSummaryResponse Response = namespaceSummaryService.buildSummary(namespace, pods);
 
         return ResponseEntity.ok(Response);

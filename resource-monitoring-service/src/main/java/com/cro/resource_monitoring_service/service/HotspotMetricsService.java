@@ -19,7 +19,7 @@ public class HotspotMetricsService {
     }
 
     public List<ResourceHotspotResponse> getResourceHotspot(String username, String type, int limit) {
-        List<PodMetricsResponse> pods = podMetricsService.fetchPodsMetrics();
+        List<PodMetricsResponse> pods = podMetricsService.fetchPodsMetrics(username);
         Comparator<PodMetricsResponse> comparator = MEMORY.equalsIgnoreCase(type)
                 ? Comparator.comparingInt(PodMetricsResponse::getMemoryUsageMi).reversed()
                 : Comparator.comparingInt(PodMetricsResponse::getCpuUsageMilli).reversed();

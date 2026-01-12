@@ -20,7 +20,7 @@ public class WorkloadMetricsService {
 
     public List<WorkloadSummaryResponse> fetchWorkloadSummary(String username) {
 
-        List<PodMetricsResponse> pods = podMetricsService.fetchPodsMetrics();
+        List<PodMetricsResponse> pods = podMetricsService.fetchPodsMetrics(username);
 
         Map<String, List<PodMetricsResponse>> groupedPods =
                 pods.stream()

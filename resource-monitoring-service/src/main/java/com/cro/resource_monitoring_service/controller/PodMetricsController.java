@@ -22,7 +22,7 @@ public class PodMetricsController {
 
     @GetMapping("/metrics")
     public ResponseEntity<List<PodMetricsResponse>> getPodMetrics(
-            @RequestHeader ("X-CRO-Username") String username) {
-        return ResponseEntity.ok(podMetricsService.fetchPodsMetrics());
+            @RequestHeader ("X-CRO-Username") final String username) {
+        return ResponseEntity.ok(podMetricsService.fetchPodsMetrics(username));
     }
 }
