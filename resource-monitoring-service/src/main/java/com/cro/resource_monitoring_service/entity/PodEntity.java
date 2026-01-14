@@ -44,4 +44,16 @@ public class PodEntity {
 
     @Column(nullable = false)
     private String username;
+
+    public PodEntity(String podName, String namespace, String nodeName, int cpuUsage, int memoryUsage, int restartCount, String status, boolean throttled, String username) {
+        this.podName = podName;
+        this.namespace = namespace;
+        this.nodeName = nodeName;
+        this.cpuUsage = cpuUsage;
+        this.memoryUsage = memoryUsage;
+        this.restartCount = restartCount;
+        this.status = status;
+        this.throttled = throttled;
+        this.username = username;
+    }
 }
