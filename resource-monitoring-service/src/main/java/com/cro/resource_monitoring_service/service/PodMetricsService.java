@@ -24,8 +24,8 @@ public class PodMetricsService {
                 .toList();
     }
 
-    public List<PodMetricsResponse> getPodsByNamespaceAndUsername(final String namespace, final String username) {
-        return podRepository.findByNamespaceAndUsername(namespace, username)
+    public List<PodMetricsResponse> getPodsByNamespaceAndUsername(final String username, final String namespace) {
+        return podRepository.findByUsernameAndNamespace(username, namespace)
                 .stream()
                 .map(this::toResponse)
                 .toList();

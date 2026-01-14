@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface PodRepository extends JpaRepository<PodEntity, Long> {
     List<PodEntity> findByUsername(String username);
-    List<PodEntity> findByNamespaceAndUsername(String namespace, String username);
+    List<PodEntity> findByUsernameAndNamespace(String username, String namespace);
 }

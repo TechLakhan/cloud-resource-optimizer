@@ -12,26 +12,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user/namespace")
+@RequestMapping("/user/namespaces")
 public class NamespaceSummaryController {
 
     private final NamespaceSummaryService namespaceSummaryService;
-    private final PodMetricsService podMetricsService;
 
-    public NamespaceSummaryController(NamespaceSummaryService namespaceSummaryService, PodMetricsService podMetricsService) {
+    public NamespaceSummaryController(NamespaceSummaryService namespaceSummaryService) {
         this.namespaceSummaryService = namespaceSummaryService;
-        this.podMetricsService = podMetricsService;
     }
 
-    @GetMapping("/{namespace}/summary")
-    public ResponseEntity<NamespaceSummaryResponse> getNamespaceSummaryResponse(
-            @PathVariable String namespace,
-            @RequestHeader ("X-CRO-Username") String username) throws InvalidRequestException, UnauthorizedOperationException {
+    @GetMapping("/summary")
+    public ResponseEntity<List<NamespaceSummaryResponse>> getNamespaceSummaryResponse(
+            @RequestHeader ("X-CRO-Username") String username,
+            @RequestParam(required = false) String namespace )
+            throws UnauthorizedOperationException {
 
-        namespaceSummaryService.validateRequest(namespace, username);
-        List<PodMetricsResponse> pods = podMetricsService.getPodsByNamespaceAndUsername(namespace, username);
-        NamespaceSummaryResponse Response = namespaceSummaryService.buildSummary(namespace, pods);
+        namespaceSummaryService.validateRequest(username);
+        List<NamespaceSummaryResponse> namespaceSummary = namespaceSummaryService.getNamespaceSummary(username, namespace);
 
-        return ResponseEntity.ok(Response);
+        return ResponseEntity.ok(namespaceSummary);
     }
 }
